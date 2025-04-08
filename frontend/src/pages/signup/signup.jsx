@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { account, databases, ID, DATABASE_ID, COLLECTION_ID } from './../../../appwriteConfig';
 import { encryptData } from '../../utils/encryption';
 import { Permission, Role } from 'appwrite';
 
 const SignupPage = () => {
+  useEffect(() => {
+    const checkExist = localStorage.getItem("emergencyContact")
+    if(checkExist){
+      localStorage.removeItem("emergencyContact")
+    }
+  },[]);
+
   const [formData, setFormData] = useState({ 
     name: '', 
     email: '', 
@@ -87,6 +94,22 @@ const SignupPage = () => {
       const userData = { isLoggedin: true, uid: user.$id };
       const encryptedData = encryptData(JSON.stringify(userData)); 
       localStorage.setItem("authData", encryptedData);
+
+      const contactId = { 
+        uid: user.$id,
+        name: formData.name, 
+        email: formData.email, 
+        dob: formData.dob, 
+        fatherName: formData.fatherName, 
+        motherName: formData.motherName, 
+        fatherPhone: formData.fatherPhone, 
+        motherPhone: formData.motherPhone, 
+        bloodGroup: formData.bloodGroup, 
+        allergies: formData.allergies, 
+        vaccinations: formData.vaccinations
+      };
+      const contEncrypt = encryptData(JSON.stringify(contactId));
+      localStorage.setItem("emergencyContact",contEncrypt);
       
       setSuccess(true);
       

@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './pages/login/login';
 import SignupPage from './pages/signup/signup';
 import Dashboard from './pages/dashboard/dashboard';
+import Access from './pages/access/access';
+import Approve from './pages/approve/approve';
+import Emergency from './pages/emergency/emergency';
 import NotFound from './pages/notfound/notfound';
 import { account } from './../appwriteConfig';
 
@@ -76,11 +79,15 @@ const App = () => {
             ) : isAuthenticated ? (
               <Navigate to="/dashboard" />
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/access" />
             )
           }
         />
-        
+
+        <Route path='/access' element={<Access />}/>
+        <Route path='/emergency' element={<Emergency />}/>
+        <Route path='/approve' element={<Approve />}/>
+
         {/* Auth routes */}
         <Route 
           path="/login" 
